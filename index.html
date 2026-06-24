@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>象棋教學網</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="chess-style.css">
+</head>
+<body>
+
+    <div id="splash-screen">
+        <div class="splash-bg"></div> 
+        <div class="splash-content">
+            <div class="splash-text">
+                <span class="char">象</span>
+                <span class="char">棋</span>
+                <div class="splash-stamp">象棋</div>
+            </div>
+            <div class="splash-subtext">Xiangqi</div>
+        </div>
+
+        <div class="ink-container">
+            <div class="ink-drop ink-1"></div>
+            <div class="ink-drop ink-2"></div>
+            <div class="ink-drop ink-3"></div>
+        </div>
+    </div>
+
+    <div id="main-wrapper">
+        <nav id="sidebar">
+            <button id="close-btn" onclick="toggleMenu()">×</button>
+            <ul>
+                <li onclick="switchTab('tutorialTab')">首頁</li>
+                <li onclick="switchTab('movementTab')">📖 基礎規則</li>
+                <li onclick="switchTab('openingTab')">常見開局介紹</li>
+                <li onclick="switchTab('midTab')">中局戰略導引-應捉</li>
+                <li onclick="switchTab('mid-2Tab')">中局戰略導引-得子</li>
+                <li onclick="switchTab('strategicTab')">基本殺法介紹</li>
+                <li onclick="startTutorial()" style="color: #60a5fa; font-weight: bold;">🎓 新手互動教學</li>
+                <li onclick="switchTab('simulationTab'); setupStandardGame();">♟️ 實戰對戰盤</li>
+            </ul>
+        </nav>
+
+        <header>
+            <button id="menu-btn" onclick="toggleMenu()">☰</button>
+            <div class="uijin-inline-container">
+                <div class="splash-text" style="display: flex; align-items: flex-end; gap: 15px;" onclick="switchTab('tutorialTab')" style="cursor: pointer;">
+                <span class="char" style="font-size: 40px; letter-spacing: 0px; cursor: pointer;">象</span>
+                <span class="char" style="font-size: 40px; letter-spacing: 0px; cursor: pointer;">棋</span>
+            </div>
+            </div>
+        </header>
+
+        <div id="tutorialTab" class="content-section active">
+        <div class="chess-poem-card">
+        <h3 class="poem-title font-uijin animate-text">《象棋》</h3>
+        <div class="poem-content font-uijin">
+        <p class="animate-text">兩軍對敵立雙營，坐運神機決死生。</p>
+        <p class="animate-text">千里封疆馳鐵馬，一川波浪動金兵。</p>
+        <p class="animate-text">虞姬歌舞悲垓下，反將旌旗逼楚城。</p>
+        <p class="animate-text">興盡計窮征戰罷，松蔭花影滿棋枰。</p>
+        </div>
+        <span class="poem-author font-uijin animate-text">明代 ・ 王世貞</span>
+        </div>
+
+        <h2>歡迎來到象棋教學網！</h2>
+        <p>這裡專為零基礎初學者量身打造，由淺入深帶你認識楚河漢界。我們透過圖像化的棋步拆解、經典對局剖析與趣味實戰引導，讓你輕鬆掌握調兵遣將的秘訣。無需害怕複雜規則，跟著我們跨出第一步，讓您在與好友的對局中能輕鬆取得勝利！</p>
+        <hr>
+        <h2>👉  點擊左上方選單，您可以按照步驟循序漸進學習象棋。</h2>
+        <p><i>「基礎規則」給第一次接觸象棋的你(妳)！</i></p>
+        <p><i>「常見開局介紹」給開局猶豫不決要下哪一步的你(妳)！</i></p>
+        <p><i>「中局戰略引導」給想在對局時讓對手大為震驚的你(妳)！</i></p>
+        <p><i>「基本殺法介紹」給想在最後一招致勝的你(妳)！</i></p>
+        <p><i>「新手互動教學」給想親自體驗每個棋子的走法的你(妳)！</i></p>
+        <p><i>「實戰對戰盤」給已經準備好的你(妳)！</i></p>
+
+        <div class="audio-widget-container">
+        <button id="audio-toggle-btn" class="audio-icon-btn" onclick="togglePlayMusic()">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        </button>
+        <span class="audio-text">是否要開啟背景音樂，伴您一同弈棋？</span>
+        <audio id="global-bgm" loop>
+        <source src="青花瓷.m4a" type="audio/mpeg">
+        </audio>
+        </div>
+    </div>
+
+        <div id="movementTab" class="content-section">
+            <h2>遊戲基本觀念</h2>
+            <p>象棋是一款經典的策略遊戲，雙方透過調度軍隊，以「將死」對方主帥為最終目標。</p>
+            <ul>
+                <img src="棋盤1.png" style="width: 50%; height: auto;">
+                <li><b>九宮格：</b> 雙方將帥與士仕的活動範圍，絕對不能離開這裡。</li>
+                <li><b>楚河漢界：</b> 棋盤中間的空白區。兵卒過河後戰力提升；相象則絕對不能過河。</li>
+                <li><b>將軍與將死：</b> 當你的棋子下一步能吃掉對方的將帥，稱為「將軍」；若對方無法化解，則為「將死」，遊戲結束。</li>
+            </ul>
+            <h2>棋子走法詳解</h2>
+            <p>熟悉每個兵種的移動與攻擊方式，是贏得勝利的第一步！</p>
+            
+            <div class="rules-container">
+                <div class="rule-card">
+                    <div class="rule-header">
+                        <div class="piece-group">
+                            <div class="piece text-red piece-demo">帥</div>
+                            <div class="piece text-black piece-demo">將</div>
+                        </div>
+                        <h3>帥 / 將 (General)</h3>
+                    </div>
+                    <p><b>走法：</b> 每次只能直走或橫走一格。</p>
+                    <p><b>限制：</b> 不能離開九宮格。</p>
+                    <div class="special-rule">⚠️ <b>特殊規則「王不見王 (飛將)」：</b> 雙方的將帥不能在同一條直線上直接碰面。若中間沒有任何棋子阻擋，輪到的一方可以直接「飛將」吃掉對手獲勝。</div>
+                </div>
+                
+                <div class="rule-card">
+                    <div class="rule-header">
+                        <div class="piece-group">
+                            <div class="piece text-red piece-demo">仕</div>
+                            <div class="piece text-black piece-demo">士</div>
+                        </div>
+                        <h3>仕 / 士 (Advisor)</h3>
+                    </div>
+                    <p><b>走法：</b> 每次只能斜走一格。</p>
+                    <p><b>限制：</b> 絕對不能離開九宮格。它們是保護將帥的貼身護衛。</p>
+                </div>
+
+                <div class="rule-card">
+                    <div class="rule-header">
+                        <div class="piece-group">
+                            <div class="piece text-red piece-demo">相</div>
+                            <div class="piece text-black piece-demo">象</div>
+                        </div>
+                        <h3>相 / 象 (Elephant)</h3>
+                    </div>
+                    <p><b>走法：</b> 每次走對角線兩格，軌跡為「田」字。</p>
+                    <p><b>限制：</b> 絕對不能越過楚河漢界。</p>
+                    <div class="special-rule">⚠️ <b>特殊規則「塞象眼」：</b> 若「田」字格的中心點有任何棋子阻擋，象就無法往該方向移動。</div>
+                </div>
+
+                <div class="rule-card">
+                    <div class="rule-header">
+                        <div class="piece-group">
+                            <div class="piece text-red piece-demo">俥</div>
+                            <div class="piece text-black piece-demo">車</div>
+                        </div>
+                        <h3>俥 / 車 (Chariot)</h3>
+                    </div>
+                    <p><b>走法：</b> 無論直走或橫走，距離不受限制。</p>
+                    <p><b>特色：</b> 象棋中威力最強、機動性最高的棋子。</p>
+                </div>
+
+                <div class="rule-card">
+                    <div class="rule-header">
+                        <div class="piece-group">
+                            <div class="piece text-red piece-demo">傌</div>
+                            <div class="piece text-black piece-demo">馬</div>
+                        </div>
+                        <h3>傌 / 馬 (Horse)</h3>
+                    </div>
+                    <p><b>走法：</b> 先直走或橫走一格，再斜走一格，軌跡為「日」字對角線。</p>
+                    <div class="special-rule">⚠️ <b>特殊規則「絆馬腳」：</b> 如果馬要移動的初始方向緊鄰著一個棋子（無論敵我），馬就會被「絆住」，無法往該方向跳躍。</div>
+                </div>
+
+                <div class="rule-card">
+                    <div class="rule-header">
+                        <div class="piece-group">
+                            <div class="piece text-red piece-demo">炮</div>
+                            <div class="piece text-black piece-demo">包</div>
+                        </div>
+                        <h3>炮 / 包 (Cannon)</h3>
+                    </div>
+                    <p><b>走法：</b> 不吃子時，移動方式與「車」完全相同，直橫無限制。</p>
+                    <div class="special-rule">⚠️ <b>吃子規則「炮打隔子」：</b> 炮要吃對方的棋子時，中間必須<b>剛好隔著一顆棋子</b>（無論敵我皆可），才能飛越吃子。</div>
+                </div>
+
+                <div class="rule-card">
+                    <div class="rule-header">
+                        <div class="piece-group">
+                            <div class="piece text-red piece-demo">兵</div>
+                            <div class="piece text-black piece-demo">卒</div>
+                        </div>
+                        <h3>兵 / 卒 (Pawn)</h3>
+                    </div>
+                    <p><b>走法：</b> 永遠不能後退。過河前，每次只能直走前進一格。</p>
+                    <div class="special-rule">✨ <b>過河後：</b> 越過楚河漢界後戰力提升，除了可以往前，還增加了<b>往左或往右</b>移動一格的能力。</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="openingTab" class="content-section">
+            <h2>常見開局介紹</h2>
+            <p>這裡有幾個高手常使用的開局方式，提供給您選擇。</p>
+            <h3>順手砲</h3>
+            <p>順手炮，也稱順炮，中國象棋四大佈局一種。由於雙方移動同一方向的中炮，故名。其特點是對攻性強。明譜《橘中秘》被視為研究中炮局的重要經典，當中尤對順手炮的研究十分深入。順手炮和逆手炮，目的均是對衡對方的中炮，屬於「鬥炮局」。順手炮是主動進攻的棋法，後著變法也很大，通常會根據對方的行法而作用變化。</p>
+            <img src="順手砲.png" style="width: 50%; height: auto;">
+            <h3>逆手砲</h3>
+            <p>由於雙方移動不同方向的中炮，故名。和順手炮一樣，其特點是對攻性強。可是如果黑方步步跟隨紅方，紅方會有優勢。順手炮和逆手炮，目的均是對衡對方的中炮，屬於「鬥炮局」。此局優點為取後中先，對方如打中兵，則可行（士６進５），車馬均可先出（馬８進７）、（車９平８），轉後手為先手，亦可令對手之中炮處於困境，否則同一佈置，針鋒相對，亦令其無隙可乘</p>
+            <img src="逆手砲.png" style="width: 50%; height: auto;">
+            <h3>中砲對屏風馬</h3>
+            <p>「中砲對屏風馬」是中國象棋中最經典的攻守體系之一。中砲（當頭炮）講究強勢中路強攻，而屏風馬則以嚴密防守、雙馬互保見長。雙方佈局變化極多，主要分為紅方進攻型的「五八炮」、「過河車」、「巡河炮」等戰術。</p>
+            <img src="中砲對屏風馬.png" style="width: 50%; height: auto;">
+            <h3>中砲對單提馬</h3>
+            <p>中砲對單提馬是中國象棋中經典且具對抗性的開局。紅方以中路突破為核心，發揮先手威力；黑方單提馬則七子聯根，防守極具韌性。通常黑方會選擇走「橫車」或「直車」來抗衡紅方的中路攻勢。</p>
+            <img src="中砲對單提馬.png" style="width: 50%; height: auto;">
+            <h3>中砲對反宮馬</h3>
+            <p>「中砲對反宮馬」是中國象棋中極具代表性且充滿戰略意味的佈局。反宮馬（又稱夾炮屏風）是一種防守反擊型陣法，後發制人；而中砲則是火力全開的強攻陣型。</p>
+            <img src="中砲對反宮馬.png" style="width: 50%; height: auto;">
+            <h3>過宮砲</h3>
+            <p>「過宮砲」是中國象棋中的一種經典且靈活的開局策略，指的是開局第一步將邊炮橫向平移，經過帥（將）的中心九宮後，放置於另側的仕角（如炮二平六或炮八平四）。這種陣法有別於當頭炮的剛猛，屬於柔性且富有變化的佈局。其核心特點包含：子力集結單側：將雙炮集中於一側，容易在局部形成強大的子力組合，便於集中火力進攻。攻守兼備：雖然套路變化比當頭炮少，但陣型結構良好，進可攻、退可守，對新手而言相當好上手。</p>
+            <img src="過宮砲.png" style="width: 50%; height: auto;">
+            <h3>飛相局</h3>
+            <p>「飛相局」是中國象棋四大主流開局布陣法之一，指先手（紅方）第一步不走炮、不跳馬，而是選擇升起中相的穩健型走法。</p>
+            <img src="飛象局.png" style="width: 50%; height: auto;">
+            <h3>起馬局</h3>
+            <p>「起馬局」是中國象棋的一種先手柔性開局方式。它與直接架炮的剛烈攻法不同，起馬局屬於穩中進取、待敵而動的散手佈局。</p>
+            <img src="起馬局.png" style="width: 50%; height: auto;">
+            <h3>仙人指路</h3>
+            <p>「仙人指路」是中國象棋中非常熱門且經典的先手開局。其核心走法為第一步挺進三路兵或七路兵（兵三進一 或 兵七進一），旨在為馬開路並試探對手的佈局意圖。該戰術進可攻退可守，彈性極大，能根據黑方的應著靈活演變為各種陣法。</p>
+            <img src="仙人指路.png" style="width: 50%; height: auto;">
+        </div>
+
+        <div id="midTab" class="content-section">
+            <h2>中局戰略導引-應捉</h2>
+            <p>中局作為承上啟下的關鍵階段，是考驗棋手實力，主要是知識、理論和應變能力的試金石，也是衡量棋手水平的重要標志。中局戰鬥的任務主要有三個方面：形勢判斷、戰略決策和戰鬥實施，這三個環節是互相關聯的統一體。</p>
+            <p>以下基本攻防概念，能幫助您在過招時佔得先機</p>
+            <h3>應捉</h3>
+            <p>在棋子被捉的時候，一方則可以通過以下方式進行「應捉」，阻止對方獲得優勢：</p>
+            <hr>
+            <h2>阻擋</h2>
+                <p>黑車只要往下一步，將搭配底角黑砲及將造成"夾車炮"絕殺(詳情見"基本殺法介紹")，因此紅炮移動到兵的移動路徑上，阻擋若黑車往下移動後將軍，帥無法吃車(詳情見"棋子走法詳解"中王見王規則)，的局面。</p>
+                <div class="video-gif-container"><video autoplay muted loop playsinline><source src="阻擋.mp4" type="video/mp4"></video></div>
+            <hr>
+            <h2>保護</h2>
+                <p>紅馬向前移動到紅車的移動路徑上，因此受到車的保護，避免被敵方黑車吃掉。</p>
+                <div class="video-gif-container"><video autoplay muted loop playsinline><source src="保護.mp4" type="video/mp4"></video></div>
+            <hr>
+            <h2>逃走</h2>
+                <p>黑車與紅車對峙的局面，紅車選擇逃走避免被攻擊。</p>
+                <div class="video-gif-container"><video autoplay muted loop playsinline><source src="逃走.mp4" type="video/mp4"></video></div>
+            <hr>
+            <h2>反捉</h2>
+                <p>黑車欲捉紅炮，紅方升起相到紅車的移動路徑上，直接形成紅炮可攻擊敵方黑車的局面，實施反捉。</p>
+                <div class="video-gif-container"><video autoplay muted loop playsinline><source src="反抓.mp4" type="video/mp4"></video></div>
+        </div>
+
+        <div id="mid-2Tab" class="content-section">
+            <h2>中局戰略導引-得子</h2>
+            <p>中局作為承上啟下的關鍵階段，是考驗棋手實力，主要是知識、理論和應變能力的試金石，也是衡量棋手水平的重要標志。中局戰鬥的任務主要有三個方面：形勢判斷、戰略決策和戰鬥實施，這三個環節是互相關聯的統一體。</p>
+            <p>以下基本攻防概念，能幫助您在過招時佔得先機</p>
+            <h3>基本得子戰術</h3>
+            <p>一般來說，捉子是為了謀求子力數量和價值上的優勢，或通過「捉」實現過門，優化己方棋子位置，從而有利於後續的進攻。以下介紹幾種基本得子的戰術。</p>
+            <hr>
+            <h2>捉雙</h2>
+            <p>指利用一個棋子同時攻擊對方的兩個（或多個）棋子。因為對方一次只能移動一個棋子，必定無法同時保全兩子，使你能在下一手吃掉其中一子，藉此獲得實質的子力優勢。</p>
+            <div class="video-gif-container"><video autoplay muted loop playsinline><source src="捉雙.mp4" type="video/mp4"></video></div>
+            <p>對局中車先捉炮，炮不論左右橫移至何處必然實現捉雙。</p>
+            <hr>
+            <h2>串打</h2>
+            <p>中國象棋中局階段非常犀利的直線謀子戰術。主要利用車或炮兩種子力，透過直線攻擊牽制對方的多個棋子，從而實現得子或破壞對方陣型。</p>
+            <div class="video-gif-container"><video autoplay muted loop playsinline><source src="串打.mp4" type="video/mp4"></video></div>
+            <p>對局中黑車與紅馬、兵連成一線，迫使紅方選擇價值較高的馬逃走，除擾亂對手陣行外，下一步可直接吃兵。</p>
+            <hr>
+            <h2>閃擊</h2>
+            <p>處在前方的棋子突然閃開而露出後方棋子，後方棋子得以攻擊對手。閃擊常見與車馬炮之間的組合。閃擊在弈棋中常常扮演雙重攻擊的角色。</p>
+            <div class="video-gif-container"><video autoplay muted loop playsinline><source src="閃擊.mp4" type="video/mp4"></video></div>
+            <p>紅炮移開並將黑方一軍，露出後方的紅炮瞄準黑車，黑方只能防守，不管如何防守均會犧牲黑車。</p>
+            <hr>
+            <h2>引離</h2>
+            <p>指用棄子或兌子手段強制地將對方某位棋子引離重要的防禦位置</p>
+            <div class="video-gif-container"><video autoplay muted loop playsinline><source src="引離.mp4" type="video/mp4"></video></div>
+            <p>紅方使用棄子戰術，把紅車移開讓出紅炮給黑方，實則為擺脫黑車的阻擋，形成最終聯合紅馬的殺招做準備。</p>
+            <hr>
+            <h2>圍困</h2>
+            <p>圍困戰術是指透過棄子、引離等手段使對方主力或將帥呈現受困狀態，然後調動我方子力對對方進行攻擊以實現得子，擴先的有利形勢或直接困斃對方的一種戰術。</p>
+            <p>黑方使用雙黑砲隊主帥造成威脅，進而取得多種吃子的機會。</p>
+            <div class="video-gif-container"><video autoplay muted loop playsinline><source src="圍困.mp4" type="video/mp4"></video></div>
+            <hr>
+            <h2>牽制</h2>
+            <p>「牽制」是一種以少制多、限制對手棋子活動空間的核心戰術。利用我方具有威脅性的棋子，控制住對方的重要子力（如車、馬、砲），使其無法移動、防守或發揮作用，從而為我方創造奪勢、謀子或破局的機會。</p>
+            <p>黑車憑一己之力，牽制住紅方炮車連成的一線，並藉機攻擊作為炮馬炮防線何地的紅馬，達成吃子的目的。</p>
+            <div class="video-gif-container"><video autoplay muted loop playsinline><source src="牽制.mp4" type="video/mp4"></video></div>
+            <hr>
+            <h2>借殺</h2>
+            <p>「借殺戰術」（或稱借力戰法）是一種高效的殺法技巧。核心概念是「借用己方棋子的作用，調動或掩護另一子展開攻殺」。常見型態包含借車使馬、借炮使車或騰挪做殺，能大幅提升攻勢的隱蔽性與破壞力。</p>
+            <div class="video-gif-container"><video autoplay muted loop playsinline><source src="借殺.mp4" type="video/mp4"></video></div>
+            <p>紅方兵在車的掩護下無視黑士的防線，直取黑象。</p>
+        </div>
+
+        <div id="strategicTab" class="content-section">
+            <div class="split-screen-container">
+                <div class="left-sidebar">
+                <h2>基本殺法介紹</h2>
+                <p>以下提供幾種殺法，使您在下棋時能有如神助，一招致勝</p>
+                <h3>兵類殺法</h3>
+                   <div class="button-group">
+                      <button class="btn" onclick="showContent(0)">花心兵</button>
+                      <button class="btn" onclick="showContent(1)">獨卒擒王</button>
+                   </div>
+                <h3>車類殺法</h3>
+                   <div class="button-group"><button class="btn" onclick="showContent(2)">雙車錯</button></div>
+                <h3>炮類殺法</h3>
+                   <div class="button-group">
+                      <button class="btn" onclick="showContent(3)">雙炮軍</button>
+                      <button class="btn" onclick="showContent(4)">悶宮</button>
+                      <button class="btn" onclick="showContent(5)">天地炮</button>
+                   </div>
+                <h3>馬類殺法</h3>
+                   <div class="button-group">
+                      <button class="btn" onclick="showContent(6)">臥槽馬</button>
+                      <button class="btn" onclick="showContent(7)">掛角馬</button>
+                      <button class="btn" onclick="showContent(8)">八角馬</button>
+                      <button class="btn" onclick="showContent(9)">釣魚馬</button>
+                      <button class="btn" onclick="showContent(10)">雙馬飲泉</button>
+                   </div>
+                <h3>車兵類殺法</h3>
+                   <div class="button-group">
+                      <button class="btn" onclick="showContent(11)">大膽穿心</button>
+                      <button class="btn" onclick="showContent(12)">三車鬧士</button>
+                   </div>
+                <h3>車馬類殺法</h3>
+                   <div class="button-group">
+                      <button class="btn" onclick="showContent(13)">側面虎</button>
+                      <button class="btn" onclick="showContent(14)">拔簧馬</button>
+                   </div>
+                <h3>車炮類殺法</h3>
+                   <div class="button-group">
+                      <button class="btn" onclick="showContent(15)">夾車炮</button>
+                      <button class="btn" onclick="showContent(16)">進洞出洞</button>
+                      <button class="btn" onclick="showContent(17)">鐵門栓</button>
+                   </div>
+                <h3>馬炮類殺法</h3>
+                   <div class="button-group"><button class="btn" onclick="showContent(18)">馬後炮</button></div>
+                <h3>組合類殺法</h3>
+                   <div class="button-group"><button class="btn" onclick="showContent(19)">雙將</button></div>
+                <h3>其它殺法</h3>
+                   <div class="button-group">
+                      <button class="btn" onclick="showContent(20)">困斃</button>
+                      <button class="btn" onclick="showContent(21)">白臉將</button>
+                   </div>
+                </div>
+
+                <div class="right-content">
+                    <div id="content-display" style="display: none;">
+                        <p id="text-target"></p>
+                        <div><img id="img-target" class="img-target"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="can-display"></div>
+        </div>
+
+        <div id="simulationTab" class="content-section">
+            <div class="game-header">
+                <div id="turn-indicator" class="turn-badge red-turn">目前輪到：紅方</div>
+                <select id="game-mode" class="mode-select" onchange="changeGameMode()">
+                    <option value="pvp">👥 玩家 vs 玩家</option>
+                    <option value="easy">🤖 玩家 vs 電腦 (簡單)</option>
+                    <option value="medium">🤖 玩家 vs 電腦 (中等)</option>
+                    <option value="hard">🔥 玩家 vs 電腦 (困難)</option>
+                </select>
+                <button class="reset-btn" onclick="setupStandardGame()">🔄 重新開局</button>
+            </div>
+
+            <p>這是一個具備<b>走法判定防呆系統</b>的棋盤！程式會自動檢查傳統象棋規則，違規的走法會被退回原位。</p>
+            
+            <div id="tutorial-dialog" class="tutorial-dialog hidden">
+                <h3 id="tut-title">教學標題</h3>
+                <div class="tut-mission">🎯 當前任務：<span id="tut-goal">移動棋子</span></div>
+                <p id="tut-text">教學內容</p>
+                <div class="tut-buttons">
+                    <button id="tut-btn-next" onclick="advanceTutorial()">了解，下一步</button>
+                    <button id="tut-btn-skip" class="tut-skip" onclick="endTutorial()">結束教學</button>
+                </div>
+            </div>
+
+            <div class="board-container">
+                <div class="board-visual">
+                    <div class="half top-half">
+                        <div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div>
+                        <div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div>
+                        <div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div>
+                        <div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div>
+                    </div>
+                    <div class="river">楚 河 <span class="river-gap"></span> 漢 界</div>
+                    <div class="half bottom-half">
+                        <div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div>
+                        <div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div>
+                        <div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div>
+                        <div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div><div class="square"></div>
+                    </div>
+                </div>
+
+                <div class="board" id="chessboard"></div>
+            </div>
+        </div>
+    </div> 
+
+    <script src="chess-script.js"></script>
+</body>
+</html>
